@@ -47,9 +47,7 @@ python setup.py build_ext --inplace
 ```
 
 
-### Data Preparation
-
-## Dataset Setup
+## Data Preparation
 
 To download and prepare the **DAVIS** dataset for evaluation, execute:
 ```bash
