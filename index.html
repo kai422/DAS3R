@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>DAS3R</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="col-md-8 col-md-offset-2">
+        <h1 style="margin: 20px 0px 10px 0px; font-size:25px; text-align: center;"><b>DAS3R</b>:  <b>D</b>ynamics-<b>A</b>ware Gaussian <b>S</b>platting for <b>S</b>tatic <b>S</b>cene <b>R</b>econstruction</h1>
+
+        <div align="center">
+            <p style="font-size: 14px;"><a style="font-size: 14px;" href="https://kai422.github.io/">Kai Xu</a><sup>1</sup>, <a style="font-size: 14px;" href="https://eldentse.github.io/">Tze Ho Elden Tse</a><sup>1</sup>, Jizong Peng<sup>2</sup>, <a style="font-size: 14px;" href="https://www.comp.nus.edu.sg/~ayao/">Angela Yao</a><sup>1</sup></p>
+            
+            <p style="font-size: 14px;"><sup>1</sup>National University of Singapore, <sup>2</sup>dConstruct Robotics</p>
+        </div>
+
+        <div align="center" style="margin: 0px 0px 0px 0px;">
+            <a href="https://github.com/kai422/das3r" class="btn btn-primary" style="margin: 5px; border-radius: 20px; font-size: 12px; background-color: #007bff; color: #fff; padding: 8px 12px;">GitHub Page</a>
+            <a href="" class="btn btn-secondary" style="margin: 5px; font-size: 12px;border-radius: 20px; background-color: #6c757d; color: #fff; padding: 8px 12px;">ArXiv Paper</a>
+            <a href="" class="btn btn-success" style="margin: 5px; font-size: 12px;border-radius: 20px; background-color: #28a745; color: #fff; padding: 8px 12px;">Paper PDF</a>
+        </div>
+
+
+
+    </div>
+    
+
+
+
+    <div class="col-md-8 col-md-offset-2" style="text-align: center; margin-top: 10px;">
+        
+        <img src="assets/davis.gif" alt="Davis GIF" style="max-width: 100%; height: auto;">
+        <img src="assets/sintel.gif" alt="Sintel GIF" style="max-width: 100%; height: auto; margin: 10px 0px 0px 0px">
+        <h1 style="margin: 20px 0px 10px 0px; font-size: 20px; text-align: left;">Abstract:</h1>
+        <p style="font-size: 14px;margin: 15px 0px 0px 0px; text-align: justify;" >
+            We propose a novel framework for scene decomposition and static background reconstruction from everyday videos. By integrating the trained motion masks and modeling the static scene as Gaussian splats with dynamics-aware optimization, our method achieves more accurate background reconstruction results than previous works. Our proposed method is termed <b>DAS3R</b>, an abbreviation for <b>D</b>ynamics-<b>A</b>ware Gaussian <b>S</b>platting for <b>S</b>tatic <b>S</b>cene <b>R</b>econstruction. Compared to existing methods, DAS3R is more robust in complex motion scenarios, capable of handling videos where dynamic objects occupy a significant portion of the scene, and does not require camera pose inputs or point cloud data from SLAM-based methods.
+        </p>
+        <img src="assets/main.png" alt="Main Image" style="max-width: 100%; height: auto;">
+
+
+
+        <h1 style="margin: 20px 0px 10px 0px; font-size: 20px; text-align: left;">Novel View Testing Results:</h1>
+
+
+
+        <p style="color: #000000; margin: 20px 0px 0px 0px;font-size:16px;text-align: left;">DAVIS: Testing Frames</p>
+        <div style="height: 10px;"></div>
+        <div id="davis-slider" style="position: relative; max-width: 100%; margin: auto; background: #000; overflow: hidden;">
+            <!-- Image Viewer -->
+            <div id="davis-image-container" style="overflow: hidden; width: 100%; height: auto;">
+                <div id="davis-image-sequence" style="display: flex; transition: transform 0.2s ease;">
+                    <!-- Replace the src attribute with davis movie images -->
+                    <img src="assets/davis/0_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/0_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/0_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/0_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/0_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    
+                    <img src="assets/davis/1_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/1_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/1_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/1_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/1_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                                    
+                    <img src="assets/davis/2_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/2_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/2_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/2_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis/3_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/3_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/3_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/3_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/3_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis/4_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/4_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/4_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/4_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/4_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis/5_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/5_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/5_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/5_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis/6_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/6_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/6_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/6_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/6_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis/7_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/7_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/7_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/7_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis/7_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <!-- Add more images as desired -->
+                </div>
+            </div>
+
+            <!-- Right Navigation Button -->
+            <button id="davis-next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10095;</button>
+
+            <!-- Left Navigation Button -->
+            <button id="davis-prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10094;</button>
+        </div>
+
+
+        <script>
+            const davisSequence = document.getElementById('davis-image-sequence');
+            const davisImages = davisSequence.querySelectorAll('img');
+            const davisPrev = document.getElementById('davis-prev');
+            const davisNext = document.getElementById('davis-next');
+
+            let davisIndex = 0;
+
+            function updatedavisPosition() {
+                const offset = -davisIndex * 100;
+                davisSequence.style.transform = `translateX(${offset}%)`;
+            }
+
+            davisPrev.addEventListener('click', () => {
+                davisIndex = (davisIndex > 0) ? davisIndex - 1 : davisImages.length - 1;
+                updatedavisPosition();
+            });
+
+            davisNext.addEventListener('click', () => {
+                davisIndex = (davisIndex < davisImages.length - 1) ? davisIndex + 1 : 0;
+                updatedavisPosition();
+            });
+        </script>
+
+        <p style="color: #000000; margin: 0px 0px 0px 0px; font-size:12px;">(Click left or right to view all test image comparisons.)</p>
+
+        <div style="height: 20px;"></div>
+
+        <p style="color: #000000; margin: 0px 0px 0px 0px;font-size:16px;text-align: left;">DAVIS: Comparisons on PSNR</p>
+        <div style="height: 10px;"></div>
+        <img src="assets/table1.png" alt="Table Image" style="max-width: 100%; height: auto;">
+
+        <p style="color: #000000; margin: 20px 0px 0px 0px;font-size:16px;text-align: left;">Sintel: Testing Frames</p>
+        <div style="height: 10px;"></div>
+
+        <div id="sintel-slider" style="position: relative; max-width: 100%; margin: auto; background: #0001; overflow: hidden;">
+            <!-- Image Viewer -->
+            <div id="sintel-image-container" style="overflow: hidden; width: 100%; height: auto;">
+                <div id="sintel-image-sequence" style="display: flex; transition: transform 0.2s ease;">
+                <!-- Replace the src attribute with Sintel movie images -->
+                <img src="assets/sintel/0_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/0_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/0_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/0_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/0_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                
+                <img src="assets/sintel/1_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/1_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/1_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/2_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/2_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/2_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/2_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/2_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/3_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/3_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/4_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/4_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/4_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/4_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/4_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/5_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/5_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/5_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/5_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/5_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/6_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/6_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/6_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/6_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/6_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/7_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/7_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/7_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/7_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/7_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/8_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/8_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/8_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/8_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel/9_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/9_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/9_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/9_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/9_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+
+                <img src="assets/sintel/10_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/10_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/10_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/10_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/10_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                
+    
+                <img src="assets/sintel/11_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/11_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/11_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/11_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/11_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+
+                <img src="assets/sintel/12_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/12_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/12_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/12_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/12_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+
+                <img src="assets/sintel/13_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/13_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/13_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/13_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel/13_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <!-- Add more images as desired -->
+                </div>
+            </div>
+
+            <!-- Right Navigation Button -->
+            <button id="sintel-next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10095;</button>
+
+            <!-- Left Navigation Button -->
+            <button id="sintel-prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10094;</button>
+        </div>
+
+        <script>
+            const sintelSequence = document.getElementById('sintel-image-sequence');
+            const sintelImages = sintelSequence.querySelectorAll('img');
+            const sintelPrev = document.getElementById('sintel-prev');
+            const sintelNext = document.getElementById('sintel-next');
+
+            let sintelIndex = 0;
+
+            function updatesintelPosition() {
+                const offset = -sintelIndex * 100;
+                sintelSequence.style.transform = `translateX(${offset}%)`;
+            }
+
+            sintelPrev.addEventListener('click', () => {
+                sintelIndex = (sintelIndex > 0) ? sintelIndex - 1 : sintelImages.length - 1;
+                updatesintelPosition();
+            });
+
+            sintelNext.addEventListener('click', () => {
+                sintelIndex = (sintelIndex < sintelImages.length - 1) ? sintelIndex + 1 : 0;
+                updatesintelPosition();
+            });
+        </script>
+
+        <p style="color: #000000; margin: 0px 0px 0px 0px; font-size:12px;">(Click left or right to view all test image comparisons.)</p>
+        <div style="height: 20px;"></div>
+
+        <p style="color: #000000; margin: 0px 0px 0px 0px;font-size:16px;text-align: left;">Sintel: Comparisons on PSNR</p>
+        <div style="height: 10px;"></div>
+        <img src="assets/table2.png" alt="Table Image 2" style="max-width: 100%; height: auto;">
+
+        <h1 style="margin: 20px 0px 10px 0px; font-size: 20px; text-align: left;">Dynamic Mask Prediction:</h1>
+        <p style="color: #000000; margin: 20px 0px 0px 0px;font-size:16px;text-align: left;">DAVIS: Dynamic Masks</p>
+
+        <div id="davis_mask-slider" style="position: relative; max-width:50%; margin: auto; background: #000;  overflow: hidden;">
+            <!-- Image Viewer -->
+            <div id="davis_mask-image-container" style="overflow: hidden; width: 100%; height: auto;">
+                <div id="davis_mask-image-sequence" style="display: flex; transition: transform 0.2s ease;">
+                    <!-- Replace the src attribute with davis_mask movie images -->
+                    <img src="assets/davis_mask/0_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/0_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/0_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/0_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/0_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    
+                    <img src="assets/davis_mask/1_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/1_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/1_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/1_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/1_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                                    
+                    <img src="assets/davis_mask/2_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/2_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/2_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/2_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis_mask/3_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/3_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/3_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/3_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/3_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis_mask/4_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/4_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/4_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/4_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/4_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis_mask/5_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/5_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/5_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/5_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis_mask/6_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/6_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/6_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/6_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/6_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <img src="assets/davis_mask/7_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/7_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/7_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/7_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                    <img src="assets/davis_mask/7_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <!-- Add more images as desired -->
+                </div>
+            </div>
+
+            <!-- Right Navigation Button -->
+            <button id="davis_mask-next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10095;</button>
+
+            <!-- Left Navigation Button -->
+            <button id="davis_mask-prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10094;</button>
+            
+        </div>
+        
+        <script>
+            const davis_maskSequence = document.getElementById('davis_mask-image-sequence');
+            const davis_maskImages = davis_maskSequence.querySelectorAll('img');
+            const davis_maskPrev = document.getElementById('davis_mask-prev');
+            const davis_maskNext = document.getElementById('davis_mask-next');
+
+            let davis_maskIndex = 0;
+
+            function updatedavis_maskPosition() {
+                const offset = -davis_maskIndex * 100;
+                davis_maskSequence.style.transform = `translateX(${offset}%)`;
+            }
+
+            davis_maskPrev.addEventListener('click', () => {
+                davis_maskIndex = (davis_maskIndex > 0) ? davis_maskIndex - 1 : davis_maskImages.length - 1;
+                updatedavis_maskPosition();
+            });
+
+            davis_maskNext.addEventListener('click', () => {
+                davis_maskIndex = (davis_maskIndex < davis_maskImages.length - 1) ? davis_maskIndex + 1 : 0;
+                updatedavis_maskPosition();
+            });
+        </script>
+        <p style="color: #000000; margin: 0px 0px 0px 0px; font-size:12px;">(Click left or right to view all test image comparisons.)</p>
+        <div style="height: 20px;"></div>
+
+
+        <p style="color: #000000; margin: 20px 0px 0px 0px;font-size:16px;text-align: left;">Sintel: Dynamic Masks</p>
+        <div id="sintel_mask-slider" style="position: relative; max-width: 50%; margin: auto; background: #0001; overflow: hidden;">
+            <!-- Image Viewer -->
+            <div id="sintel_mask-image-container" style="overflow: hidden; width: 100%; height: auto;">
+                <div id="sintel_mask-image-sequence" style="display: flex; transition: transform 0.2s ease;">
+                <!-- Replace the src attribute with Sintel movie images -->
+                <img src="assets/sintel_mask/0_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/0_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/0_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/0_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/0_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                
+                <img src="assets/sintel_mask/1_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/1_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/1_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/2_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/2_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/2_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/2_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/2_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/3_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/3_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/4_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/4_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/4_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/4_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/4_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/5_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/5_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/5_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/5_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/5_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/6_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/6_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/6_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/6_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/6_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/7_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/7_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/7_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/7_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/7_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/8_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/8_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/8_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/8_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                <img src="assets/sintel_mask/9_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/9_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/9_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/9_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/9_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+
+                <img src="assets/sintel_mask/10_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/10_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/10_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/10_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/10_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                
+    
+                <img src="assets/sintel_mask/11_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/11_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/11_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/11_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/11_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+
+                <img src="assets/sintel_mask/12_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/12_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/12_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/12_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/12_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+
+                <img src="assets/sintel_mask/13_0.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/13_1.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/13_2.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/13_3.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+                <img src="assets/sintel_mask/13_4.jpg" style="width: 100%; height: auto; flex-shrink: 0;">
+
+                    <!-- Add more images as desired -->
+                </div>
+            </div>
+
+            <!-- Right Navigation Button -->
+            <button id="sintel_mask-next" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10095;</button>
+
+            <!-- Left Navigation Button -->
+            <button id="sintel_mask-prev" style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.3); color: #fff; border: none; padding: 5px; cursor: pointer; border-radius: 0%;">&#10094;</button>
+        </div>
+
+        <script>
+            const sintel_maskSequence = document.getElementById('sintel_mask-image-sequence');
+            const sintel_maskImages = sintel_maskSequence.querySelectorAll('img');
+            const sintel_maskPrev = document.getElementById('sintel_mask-prev');
+            const sintel_maskNext = document.getElementById('sintel_mask-next');
+
+            let sintel_maskIndex = 0;
+
+            function updatesintel_maskPosition() {
+                const offset = -sintel_maskIndex * 100;
+                sintel_maskSequence.style.transform = `translateX(${offset}%)`;
+            }
+
+            sintel_maskPrev.addEventListener('click', () => {
+                sintel_maskIndex = (sintel_maskIndex > 0) ? sintel_maskIndex - 1 : sintel_maskImages.length - 1;
+                updatesintel_maskPosition();
+            });
+
+            sintel_maskNext.addEventListener('click', () => {
+                sintel_maskIndex = (sintel_maskIndex < sintel_maskImages.length - 1) ? sintel_maskIndex + 1 : 0;
+                updatesintel_maskPosition();
+            });
+        </script>
+
+        <p style="color: #000000; margin: 0px 0px 0px 0px; font-size:12px;">(Click left or right to view all test image comparisons.)</p>
+        <div style="height: 20px;"></div>
+
+        <h1 style="margin: 20px 0px 10px 0px; font-size: 20px; text-align: left;">BibTex:</h1>
+        <div style="height: 100px;"></div>
+    </div>
+
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>
+
+
