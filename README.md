@@ -10,7 +10,8 @@ This repository is the official implementation of the paper:
 [*Tze Ho Elden Tse*](https://eldentse.github.io/),
 [*Jizong Peng*](),
 [*Angela Yao*](https://www.comp.nus.edu.sg/~ayao/)
-Arxiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) 
+
+arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) 
 
 ![DAVIS Example](assets/davis.gif)
 ![Sintel Example](assets/sintel.gif)
