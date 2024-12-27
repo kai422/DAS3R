@@ -11,7 +11,7 @@ This repository is the official implementation of the paper:
 [*Jizong Peng*](),
 [*Angela Yao*](https://www.comp.nus.edu.sg/~ayao/)
 
-arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) 
+arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[PDF]**](https://github.com/kai422/das3r_page/blob/main/DAS3R.pdf)
 
 ![DAVIS Example](assets/davis.gif)
 ![Sintel Example](assets/sintel.gif)
