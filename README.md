@@ -13,9 +13,8 @@ This repository is the official implementation of the paper:
 
 arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[PDF]**](https://github.com/kai422/das3r_page/blob/main/DAS3R.pdf) [**[Hugging Face]**](https://huggingface.co/Kai422kx/das3r)
 
-![Watch the video](assets/davis.mp4)
-![Watch the video](assets/sintel.mp4)
-
+![Demo](assets/davis.gif)
+![Demo](assets/sintel.gif)
 ## Getting Started
 
 
