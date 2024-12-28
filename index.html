@@ -40,9 +40,15 @@
 
 
     <div class="col-md-8 col-md-offset-2" style="text-align: center; margin-top: 10px;">
-        
-        <img src="assets/davis.gif" alt="Davis GIF" style="max-width: 100%; height: auto;">
-        <img src="assets/sintel.gif" alt="Sintel GIF" style="max-width: 100%; height: auto; margin: 10px 0px 0px 0px">
+        <video controls>
+              <source src="assets/davis.mp4" type="video/mp4" style="max-width: 100%; height: auto;">
+              Your browser does not support the video tag.
+        </video>
+        <video controls>
+              <source src="assets/sintel.mp4" type="video/mp4" style="max-width: 100%; height: auto; margin: 10px 0px 0px 0px">
+              Your browser does not support the video tag.
+        </video>
+
         <h1 style="margin: 20px 0px 10px 0px; font-size: 20px; text-align: left;">Abstract:</h1>
         <p style="font-size: 16px;margin: 15px 0px 0px 0px; text-align: justify;" >
             We propose a novel framework for scene decomposition and static background reconstruction from everyday videos. By integrating the trained motion masks and modeling the static scene as Gaussian splats with dynamics-aware optimization, our method achieves more accurate background reconstruction results than previous works. Our proposed method is termed <b>DAS3R</b>, an abbreviation for <b>D</b>ynamics-<b>A</b>ware Gaussian <b>S</b>platting for <b>S</b>tatic <b>S</b>cene <b>R</b>econstruction. Compared to existing methods, DAS3R is more robust in complex motion scenarios, capable of handling videos where dynamic objects occupy a significant portion of the scene, and does not require camera pose inputs or point cloud data from SLAM-based methods.
