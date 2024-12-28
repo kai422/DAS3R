@@ -11,16 +11,22 @@ This repository is the official implementation of the paper:
 [*Jizong Peng*](),
 [*Angela Yao*](https://www.comp.nus.edu.sg/~ayao/)
 
-arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[PDF]**](https://github.com/kai422/das3r_page/blob/main/DAS3R.pdf)
+arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[PDF]**](https://github.com/kai422/das3r_page/blob/main/DAS3R.pdf) [**[Hugging Face]**](https://huggingface.co/Kai422kx/das3r)
 
-![DAVIS Example](assets/davis.gif)
-![Sintel Example](assets/sintel.gif)
+<video controls autoplay loop>
+      <source src="assets/davis.mp4" type="video/mp4" style="max-width: 100%; height: auto;">
+      Your browser does not support the video tag.
+</video>
+<video controls autoplay loop>
+      <source src="assets/sintel.mp4" type="video/mp4" style="max-width: 100%; height: auto; margin: 10px 0px 0px 0px">
+      Your browser does not support the video tag.
+</video>
 
 ## Getting Started
 
 
 ### Installation
-1. Clone DAS3R and download pre-trained model from [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link).
+1. Clone DAS3R and download pre-trained model from [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link) or [Hugging Face](https://huggingface.co/Kai422kx/das3r).
 ```bash
 git clone --recursive git@github.com:kai422/das3r.git
 cd das3r
