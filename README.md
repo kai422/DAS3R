@@ -14,12 +14,13 @@ This repository is the official implementation of the paper:
 arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[PDF]**](https://github.com/kai422/das3r_page/blob/main/DAS3R.pdf) [**[Hugging Face]**](https://huggingface.co/Kai422kx/das3r)
 
 <video controls autoplay loop>
-      <source src="assets/davis.mp4" type="video/mp4" style="max-width: 100%; height: auto;">
-      Your browser does not support the video tag.
+  <source src="https://kai422.github.io/DAS3R/assets/davis.mp4" type="video/mp4">
+  Your browser does not support the video tag.
 </video>
+
 <video controls autoplay loop>
-      <source src="assets/sintel.mp4" type="video/mp4" style="max-width: 100%; height: auto; margin: 10px 0px 0px 0px">
-      Your browser does not support the video tag.
+  <source src="https://kai422.github.io/DAS3R/assets/sintel.mp4" type="video/mp4">
+  Your browser does not support the video tag.
 </video>
 
 ## Getting Started
