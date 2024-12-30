@@ -1,6 +1,6 @@
 # DAS3R: Dynamics-Aware Gaussian Splatting for Static Scene Reconstruction
 
-<b>DAS3R</b> is a novel framework for scene decomposition and static background reconstruction from uposed videos. By integrating the trained motion masks and modeling the static scene as Gaussian splats with dynamics-aware optimization, DAS3R is more robust in complex motion scenarios, capable of handling videos where dynamic objects occupy a significant portion of the scene, and does not require camera pose inputs or point cloud data from SLAM-based methods.
+<b>DAS3R</b> is a novel framework for scene decomposition and static background reconstruction from unposed videos. By integrating the trained motion masks and modeling the static scene as Gaussian splats with dynamics-aware optimization, DAS3R is more robust in complex motion scenarios, capable of handling videos where dynamic objects occupy a significant portion of the scene, and does not require camera pose inputs or point cloud data from SLAM-based methods.
 
 This repository is the official implementation of the paper:
 
@@ -83,7 +83,7 @@ python dynamic_predictor/launch.py --mode=eval_pose \
         --output_dir=results/sintel \
         --use_pred_mask 
 
-# If you download it, put them under `results` and unzip davis.zip and sintel.zip.
+# Alternatively, download the files and place them in the `results` directory. Then, unzip `davis.zip` and `sintel.zip` in the same directory.
 ```
 Rearrange results:
 
