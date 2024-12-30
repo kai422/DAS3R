@@ -32,8 +32,6 @@ from dust3r.depth_eval import eval_mono_depth_estimation
 import dust3r.utils.path_to_croco  # noqa: F401
 import croco.utils.misc as misc  # noqa
 from croco.utils.misc import NativeScalerWithGradNormCount as NativeScaler  # noqa
-from evaluation.sintel.davis2017.metrics import db_eval_boundary, db_eval_iou
-from evaluation.sintel.davis2017.utils import db_statistics
 import PIL.Image as Image
 from dust3r.cloud_opt.motion_mask_from_raft import get_motion_mask_from_pairs
 

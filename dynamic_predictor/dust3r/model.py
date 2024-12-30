@@ -14,7 +14,6 @@ from .utils.misc import fill_default_args, freeze_all_params, is_symmetrized, in
 from .heads import head_factory
 from dust3r.patch_embed import get_patch_embed, ManyAR_PatchEmbed
 from third_party.raft import load_RAFT
-from .VN_transformer import VNTransformer
 import dust3r.utils.path_to_croco  # noqa: F401
 from models.croco import CroCoNet  # noqa
 from einops import rearrange, repeat, reduce

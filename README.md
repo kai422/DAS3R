@@ -116,11 +116,15 @@ bash scripts/testing_psnr_sintel.sh
 
 ## Training Dynamic Predictor
 
-First download the pretrained MonST3R weights from [Google Drive](https://drive.google.com/file/d/1Z1jO_JmfZj0z3bgMvCwqfUhyZ1bIbc9E/view?usp=sharing) or via [Hugging Face](https://huggingface.co/Junyi42/MonST3R_PO-TA-S-W_ViTLarge_BaseDecoder_512_dpt).
-
-Then, you can train the model using the following command:
+First download the pretrained MonST3R and RAFT weights:
 ```bash
-bash dynamic_predictor/DAS3R_b32_g4.sh
+cd dynamic_predictor
+sh download_ckpt.sh
+```
+
+Then, you can train DAS3R with:
+```bash
+bash DAS3R_b32_g4.sh
 ```
 
 

@@ -1,7 +1,7 @@
 # --------------------------------------------------------
 # training executable for DUSt3R
 # --------------------------------------------------------
-from dust3r.training_bce import get_args_parser, train, load_model
+from dust3r.training import get_args_parser, train, load_model
 from dust3r.pose_eval import eval_pose_estimation
 from dust3r.depth_eval import eval_mono_depth_estimation
 import croco.utils.misc as misc  # noqa
