@@ -123,6 +123,18 @@ Then, you can train the model using the following command:
 bash dynamic_predictor/DAS3R_b32_g4.sh
 ```
 
+## Citation
+
+If you find our work useful, please cite:
+
+```bibtex
+@article{xu2024das3r,
+ title     = {DAS3R: Dynamics-Aware Gaussian Splatting for Static Scene Reconstruction}, 
+ author    = {Xu, Kai and Tse, Tze Ho Elden and Peng, Jizong and Yao, Angela},
+ journal   = {arXiv preprint arxiv:2412.19584},
+ year      = {2024}
+}
+```
 
 
 ## Acknowledgements
