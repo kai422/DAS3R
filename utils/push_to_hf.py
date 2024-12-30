@@ -1,6 +1,6 @@
 
 from huggingface_hub import login
-from dynamic_predictor.dust3r.model import AsymmetricCroCo3DStereo
+from dust3r.model import AsymmetricCroCo3DStereo
 
 login(token="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")
 
