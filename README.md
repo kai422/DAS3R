@@ -19,14 +19,14 @@ arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[ArXiv]**]
 
 
 ### Installation
-1. Clone DAS3R.
+- Clone DAS3R.
 ```bash
 git clone --recursive git@github.com:kai422/das3r.git
 cd das3r
 git submodule update --init --recursive
 ```
 
-2. Create the environment (or use pre-built docker), here we show an example using conda.
+- Create the environment (or use pre-built docker), here we show an example using conda.
 ```bash
 conda create -n das3r python=3.11 cmake=3.14.0
 conda activate das3r
@@ -39,7 +39,7 @@ vim submodules/diff-gaussian-rasterization/cuda_rasterizer/auxiliary.h
 pip install submodules/diff-gaussian-rasterization
 ```
 
-3. Optional but highly suggested, compile the cuda kernels for RoPE (as in CroCo v2).
+- Optional but highly suggested, compile the cuda kernels for RoPE (as in CroCo v2).
 ```bash
 # DUST3R relies on RoPE positional embeddings for which you can compile some cuda kernels for faster runtime.
 cd dynamic_predictor/croco/models/curope/
@@ -50,27 +50,30 @@ cd ../../../..
 
 ## Data Preparation
 
-To download and prepare the **DAVIS** dataset for evaluation, execute:
+- Download and prepare the **DAVIS** dataset for evaluation.
 ```bash
 cd data; python download_davis.py; cd ..
 ```
-To download and prepare the **Sintel** dataset for evaluation, execute:
+- Download and prepare the **Sintel** dataset for evaluation.
 ```bash
 cd data; bash download_sintel.sh; cd ..
 ```
-If you need to train dynamic_predictor, download the **PointOdyssey** dataset:
+- If you need to train dynamic_predictor, download the **PointOdyssey** dataset.
 ```bash
 cd data; bash download_pointodyssey.sh; cd ..
 ```
-Rearrange it for faster data loading:
+- Rearrange it for faster data loading.
 ```bash
 cd datasets_preprocess; python pointodyssey_rearrange.py; cd ..
 ```
 
 ## Training Dynamic-Aware Gaussian Splatting
 
-First compute dynamic masks and coarse geometric initialization or download them directly from  [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link).
+- First compute dynamic masks and coarse geometric initialization or download them directly from  [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link).
 ```bash
+# download the pretrained RAFT weights:
+cd dynamic_predictor; sh download_ckpt.sh; cd ..
+
 # For DAVIS dataset:
 python dynamic_predictor/launch.py --mode=eval_pose \
         --pretrained=Kai422kx/das3r \
@@ -86,7 +89,7 @@ python dynamic_predictor/launch.py --mode=eval_pose \
 
 # Alternatively, download the files and place them in the `results` directory. Then, unzip `davis.zip` and `sintel.zip` in the same directory.
 ```
-Rearrange results:
+- Rearrange results:
 
 ```bash
 python utils/rearrange_davis.py
@@ -94,19 +97,19 @@ python utils/rearrange_sintel.py
 ```
 **Training Gaussian Splatting:**
 
-For specific sequence with GUI:
+- For specific sequence with GUI:
 ```bash
 python train_gui.py -s ${input_folder} -m ${output_folder} --iter ${total_iterations} --eval_pose --gui
 # for example
 python train_gui.py -s results/sintel/market_2 -m results/sintel/market_2 --iter 4000 --eval_pose --gui 
 ```
-For training on all frames and rendering:
+- For training on all frames and rendering:
 ```bash
 bash scripts/rendering_davis.sh
 bash scripts/rendering_sintel.sh
 ```
 
-For evaluation on test frames:
+- For evaluation on test frames:
 ```bash
 bash scripts/testing_psnr_davis.sh
 bash scripts/testing_psnr_sintel.sh
@@ -117,13 +120,7 @@ bash scripts/testing_psnr_sintel.sh
 
 ## Training Dynamic Predictor
 
-First download the pretrained MonST3R and RAFT weights:
-```bash
-cd dynamic_predictor
-sh download_ckpt.sh
-```
-
-Then, you can train DAS3R with:
+You can train DAS3R directly with:
 ```bash
 bash DAS3R_b32_g4.sh
 ```
