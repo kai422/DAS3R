@@ -43,7 +43,7 @@ def main(dataset_path, output_path):
     output_images_path=os.path.join(output_path, 'images')
 
     output_dynamic_masks_path=os.path.join(output_path, 'dynamic_masks')
-    output_enlarged_dynamic_masks_path=os.path.join(output_path, 'enlarged_dynamic_masks')
+    # output_enlarged_dynamic_masks_path=os.path.join(output_path, 'enlarged_dynamic_masks')
     output_depth_maps_path=os.path.join(output_path, 'depth_maps')
     output_confidence_maps_path=os.path.join(output_path, 'confidence_maps')
     output_dyna_max_path=os.path.join(output_path, 'dyna_max')
@@ -52,7 +52,7 @@ def main(dataset_path, output_path):
     os.makedirs(output_colmap_path, exist_ok=True)
     os.makedirs(output_images_path, exist_ok=True)
     os.makedirs(output_dynamic_masks_path, exist_ok=True)
-    os.makedirs(output_enlarged_dynamic_masks_path, exist_ok=True)
+    # os.makedirs(output_enlarged_dynamic_masks_path, exist_ok=True)
     os.makedirs(output_depth_maps_path, exist_ok=True)
     os.makedirs(output_confidence_maps_path, exist_ok=True)
     os.makedirs(output_dyna_max_path, exist_ok=True)
@@ -102,9 +102,9 @@ def main(dataset_path, output_path):
     for i, mask_file in enumerate(mask_files):
         output_mask_file = os.path.join(output_dynamic_masks_path, f"dynamic_mask_{i:04d}.png")
         os.system(f"cp {mask_file} {output_mask_file}")
-        mask_file = str(mask_file).replace('dynamic_mask', 'enlarged_dynamic_mask')
-        output_mask_file = str(output_mask_file).replace('dynamic_mask', 'enlarged_dynamic_mask')
-        os.system(f"cp {mask_file} {output_mask_file}")
+        # mask_file = str(mask_file).replace('dynamic_mask', 'enlarged_dynamic_mask')
+        # output_mask_file = str(output_mask_file).replace('dynamic_mask', 'enlarged_dynamic_mask')
+        # os.system(f"cp {mask_file} {output_mask_file}")
         
     # load predict depth
     depth_map_files = sorted(Path(dataset_path).glob('frame_*.npy'), key=lambda x: int(x.stem.split('_')[-1]))

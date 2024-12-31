@@ -28,7 +28,7 @@ import numpy as np
 import imageio
 
 
-def save_interpolate_pose(model_path, iter, n_views):
+def save_interpolate_pose(model_path, iter, n_views=0):
 
     org_pose = np.load(model_path + f"pose/pose_{iter}.npy")
     visualizer(org_pose, ["green" for _ in org_pose], model_path + "pose/poses_optimized.png")
@@ -96,7 +96,8 @@ def render_sets(
 ):
 
     # Applying interpolation
-    save_interpolate_pose(dataset.model_path, iteration, args.n_views)
+    # save_interpolate_pose(dataset.model_path, iteration, args.n_views)
+    save_interpolate_pose(dataset.model_path, iteration)
 
     with torch.no_grad():
         gaussians = GaussianModel(dataset.sh_degree)
@@ -118,8 +119,8 @@ def render_sets(
 
     if args.get_video:
         image_folder = os.path.join(dataset.model_path, f'interp/ours_{args.iteration}/renders')
-        output_video_file = os.path.join(dataset.model_path, f'{args.scene}_{args.n_views}_view.mp4')
-        images_to_video(image_folder, output_video_file, fps=30)
+        output_video_file = os.path.join(dataset.model_path, f'rendered.mp4')
+        images_to_video(image_folder, output_video_file, fps=15)
 
 
 if __name__ == "__main__":

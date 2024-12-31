@@ -94,26 +94,37 @@ python dynamic_predictor/launch.py --mode=eval_pose_custom \
         --pretrained=Kai422kx/das3r \
         --dir_path=data/custom/images \
         --output_dir=data/custom/output \
-        --use_pred_mask --not_batchify # use not_batchify to save memory
+        --use_pred_mask 
 ```
 - Rearrange results:
 
 ```bash
 python utils/rearrange_davis.py
 python utils/rearrange_sintel.py
+
+# For your own dataset:
+python utils/rearrange.py --output_dir=data/custom/output
 ```
 **Training Gaussian Splatting:**
 
 - For specific sequence with GUI:
 ```bash
 python train_gui.py -s ${input_folder} -m ${output_folder} --iter ${total_iterations} --eval_pose --gui
+
 # for example
-python train_gui.py -s results/sintel/market_2 -m results/sintel/market_2 --iter 4000 --eval_pose --gui 
+python train_gui.py -s results/sintel_rearranged/market_2 -m results/sintel_rearranged/market_2 --iter 4000 --eval_pose --gui 
+
+# for your own dataset
+python train_gui.py -s data/custom/output_rearranged -m data/custom/output_rearranged --iter 4000 --gui 
 ```
 - For training on all frames and rendering:
 ```bash
 bash scripts/rendering_davis.sh
 bash scripts/rendering_sintel.sh
+
+# for your own dataset
+python train_gui.py -s data/custom/output_rearranged -m data/custom/output_rearranged --iter 4000
+python render.py -s data/custom/output_rearranged -m data/custom/output_rearranged --iter 4000 --get_video 
 ```
 
 - For evaluation on test frames:

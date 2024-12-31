@@ -663,8 +663,8 @@ class PointCloudOptimizer(BasePCOptimizer):
                 ego_flow_2_1, _ = self.depth_wrapper(R2, T2, R1, T1, disp_2, K1, inv_K2)
 
                 # Get the corresponding dynamic region masks (if any)
-                dynamic_mask_i = self.dynamic_masks[i]  # shape: (H, W)
-                dynamic_mask_j = self.dynamic_masks[j]
+                dynamic_mask_i = self.dynamic_masks[i].to(self.device)  # shape: (H, W)
+                dynamic_mask_j = self.dynamic_masks[j].to(self.device)
 
                 # When computing flow loss, exclude or ignore dynamic regions
                 flow_loss_i = self.flow_loss_fn(

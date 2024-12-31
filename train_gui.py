@@ -692,10 +692,13 @@ def training_report(tb_writer, iteration, Ll1, loss, l1_loss, elapsed, testing_i
                     l1_test += l1_loss(image, gt_image).mean().double()
                     psnr_test += psnr(image, gt_image).mean().double()
                     lens += 1
-
-            psnr_test /= lens
-            l1_test /= lens          
-            log = "\n[ITER {}] Evaluating {}: L1 {} PSNR {}".format(iteration, config['name'], l1_test, psnr_test)
+            if lens == 0:
+                log = None
+                continue
+            else:
+                psnr_test /= lens
+                l1_test /= lens          
+                log = "\n[ITER {}] Evaluating {}: L1 {} PSNR {}".format(iteration, config['name'], l1_test, psnr_test)
             with open(os.path.join(scene.model_path, f"{config['name']}_log.txt"), 'a') as log_file:
                 log_file.write(f"[ITER {iteration}] Evaluating {config['name']}: L1 {l1_test} PSNR {psnr_test}\n")
             if tb_writer:

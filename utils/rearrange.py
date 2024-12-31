@@ -6,6 +6,7 @@ from vo_eval import file_interface
 from pathlib import Path
 from plyfile import PlyData, PlyElement
 import torch
+import argparse
 
 def quaternion_to_matrix(quaternions):
     """
@@ -355,11 +356,9 @@ def R_to_quaternion(R):
 if __name__ == "__main__":
     dataset_path = 'results/sintel'
     output_path = dataset_path.replace('sintel', 'sintel_rearranged')
-
-    dataset_folders = [f for f in os.listdir(dataset_path) if os.path.isdir(os.path.join(dataset_path, f))]
-    for seq in sorted(dataset_folders):
-        if seq != '__pycache__':
-            print(f'Processing {seq}')
-            data_path = os.path.join(dataset_path, seq)
-            output_path = data_path.replace('sintel', 'sintel_rearranged')
-            main(data_path, output_path)
+    parser = argparse.ArgumentParser(description='Rearrange dataset.')
+    parser.add_argument('--output_dir', type=str, default='data/custom/output', help='Output directory')
+    args = parser.parse_args()
+    output_path = args.output_dir
+    rearranged_path = output_path+'_rearranged'
+    main(args.output_dir, rearranged_path)
