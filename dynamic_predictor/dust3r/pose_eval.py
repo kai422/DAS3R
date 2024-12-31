@@ -15,6 +15,7 @@ from dust3r.inference import inference
 import dust3r.eval_metadata
 from dust3r.eval_metadata import dataset_metadata
 
+
 def eval_pose_estimation(args, model, device, save_dir=None):
     metadata = dataset_metadata.get(args.eval_dataset, dataset_metadata['sintel'])
     img_path = metadata['img_path']
@@ -24,6 +25,9 @@ def eval_pose_estimation(args, model, device, save_dir=None):
         args, model, device, save_dir=save_dir, img_path=img_path, mask_path=mask_path
     )
     return ate_mean, rpe_trans_mean, rpe_rot_mean, outfile_list, bug
+
+
+
 
 
 def eval_pose_estimation_dist(args, model, device, img_path, save_dir=None, mask_path=None):
@@ -85,7 +89,7 @@ def eval_pose_estimation_dist(args, model, device, img_path, save_dir=None, mask
 
             filelist = [os.path.join(dir_path, name) for name in os.listdir(dir_path)]
             filelist.sort()
-            if len(filelist) > 50:
+            if args.evaluate_davis:
                 filelist = filelist[:50]
             filelist = filelist[::args.pose_eval_stride]
             max_winsize = max(1, math.ceil((len(filelist)-1)/2))
@@ -123,7 +127,7 @@ def eval_pose_estimation_dist(args, model, device, img_path, save_dir=None, mask
                         motion_mask_thre=args.motion_mask_thre,
                         flow_loss_start_epoch=args.flow_loss_start_epoch, flow_loss_thre=args.flow_loss_thre, translation_weight=args.translation_weight,
                         sintel_ckpt=args.eval_dataset == 'sintel', use_gt_mask = args.use_gt_mask, use_pred_mask = args.use_pred_mask, sam2_mask_refine=args.sam2_mask_refine,
-                        empty_cache=False, pxl_thre=args.pxl_thresh, # empty cache to make it run on 48GB GPU
+                        empty_cache=len(filelist) > 72, pxl_thre=args.pxl_thresh, batchify=not args.not_batchify
                     )
                     if args.use_gt_focal:
                         focal_path = os.path.join(
@@ -246,3 +250,81 @@ def eval_pose_estimation_dist(args, model, device, img_path, save_dir=None, mask
             f.write(f'Average ATE: {avg_ate:.5f}, Average RPE trans: {avg_rpe_trans:.5f}, Average RPE rot: {avg_rpe_rot:.5f}\n')
 
     return avg_ate, avg_rpe_trans, avg_rpe_rot, outfile_list_combined, bug
+
+
+def pose_estimation_custom(args, model, device, save_dir=None):
+    load_img_size = 512
+    dir_path = args.dir_path
+    silent = args.silent
+
+
+    filelist = [os.path.join(dir_path, name) for name in os.listdir(dir_path)]
+    filelist.sort()
+    filelist = filelist[::args.pose_eval_stride]
+    max_winsize = max(1, math.ceil((len(filelist)-1)/2))
+    scene_graph_type = args.scene_graph_type
+    if int(scene_graph_type.split('-')[1]) > max_winsize:
+        scene_graph_type = f'{args.scene_graph_type.split("-")[0]}-{max_winsize}'
+        if len(scene_graph_type.split("-")) > 2:
+            scene_graph_type += f'-{args.scene_graph_type.split("-")[2]}'
+    imgs = load_images(
+        filelist, size=load_img_size, verbose=False, crop=not args.no_crop
+    )
+    print(f'Processing {args.dir_path} with {len(imgs)} images')
+    if len(imgs) > 95:
+        # use swinstride-4
+        scene_graph_type = scene_graph_type.replace('5', '4')
+    pairs = make_pairs(
+        imgs, scene_graph=scene_graph_type, prefilter=None, symmetrize=True
+    ) 
+
+    output = inference(pairs, model, device, batch_size=1, verbose=not silent)
+
+    torch.cuda.empty_cache()
+
+    with torch.enable_grad():
+        if len(imgs) > 2:
+            mode = GlobalAlignerMode.PointCloudOptimizer
+            scene = global_aligner(
+                output, device=device, mode=mode, verbose=not silent,
+                shared_focal=not args.not_shared_focal and not args.use_gt_focal,
+                flow_loss_weight=args.flow_loss_weight, flow_loss_fn=args.flow_loss_fn,
+                depth_regularize_weight=args.depth_regularize_weight,
+                num_total_iter=args.n_iter, temporal_smoothing_weight=args.temporal_smoothing_weight, 
+                motion_mask_thre=args.motion_mask_thre,
+                flow_loss_start_epoch=args.flow_loss_start_epoch, flow_loss_thre=args.flow_loss_thre, translation_weight=args.translation_weight,
+                sintel_ckpt=args.eval_dataset == 'sintel', use_gt_mask = args.use_gt_mask, use_pred_mask = args.use_pred_mask, sam2_mask_refine=args.sam2_mask_refine,
+                empty_cache=len(filelist) > 72, pxl_thre=args.pxl_thresh, batchify=not args.not_batchify
+            )
+            if args.use_gt_focal:
+                focal_path = args.focal_path
+                focals = np.loadtxt(focal_path)
+                focals = focals[::args.pose_eval_stride]
+                original_img_size = cv2.imread(filelist[0]).shape[:2]
+                resized_img_size = tuple(imgs[0]['img'].shape[-2:])
+                focals = focals * max(
+                    (resized_img_size[0] / original_img_size[0]),
+                    (resized_img_size[1] / original_img_size[1])
+                )
+                scene.preset_focal(focals, requires_grad=False)  # TODO: requires_grad=False
+            lr = 0.01
+            loss = scene.compute_global_alignment(
+                init='mst', niter=args.n_iter, schedule=args.pose_schedule, lr=lr,
+            )
+        else:
+            mode = GlobalAlignerMode.PairViewer
+            scene = global_aligner(output, device=device, mode=mode, verbose=not silent)
+
+
+        os.makedirs(f'{save_dir}', exist_ok=True)
+        scene.clean_pointcloud()
+        scene.save_tum_poses(f'{save_dir}/pred_traj.txt')
+        scene.save_focals(f'{save_dir}/pred_focal.txt')
+        scene.save_intrinsics(f'{save_dir}/pred_intrinsics.txt')
+        scene.save_depth_maps(f'{save_dir}')
+        scene.save_dynamic_masks(f'{save_dir}')
+        scene.save_dyna_maps(f'{save_dir}')
+        scene.save_conf_maps(f'{save_dir}')
+        scene.save_init_conf_maps(f'{save_dir}')
+        scene.save_rgb_imgs(f'{save_dir}')
+        # enlarge_seg_masks(f'{save_dir}', kernel_size=5 if args.use_gt_mask else 3)

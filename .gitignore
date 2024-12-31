@@ -4,6 +4,7 @@ data/davis
 data/davis_videos
 data/point_odyssey
 data/sintel
+data/custom
 *.pth
 
 # Byte-compiled / optimized / DLL files

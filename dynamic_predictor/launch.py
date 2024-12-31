@@ -2,7 +2,7 @@
 # training executable for DUSt3R
 # --------------------------------------------------------
 from dust3r.training import get_args_parser, train, load_model
-from dust3r.pose_eval import eval_pose_estimation
+from dust3r.pose_eval import eval_pose_estimation, pose_estimation_custom
 from dust3r.depth_eval import eval_mono_depth_estimation
 import croco.utils.misc as misc  # noqa
 import torch
@@ -31,6 +31,8 @@ if __name__ == '__main__':
         if args.mode == 'eval_pose':
             ate_mean, rpe_trans_mean, rpe_rot_mean, outfile_list, bug = eval_pose_estimation(args, model, device, save_dir=args.output_dir)
             print(f'ATE mean: {ate_mean}, RPE trans mean: {rpe_trans_mean}, RPE rot mean: {rpe_rot_mean}')
+        if args.mode == 'eval_pose_custom':
+            pose_estimation_custom(args, model, device, save_dir=args.output_dir)
 
         if args.mode == 'eval_depth':
             eval_mono_depth_estimation(args, model, device)

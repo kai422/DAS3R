@@ -111,7 +111,13 @@ def get_args_parser():
     parser.add_argument('--cananical_space_loss_weight', default=1, type=float, help='cananical_space_loss_weight for pose optimization')
     parser.add_argument('--flow_loss_fn', default='smooth_l1', type=str, help='flow loss type for pose optimization')
     parser.add_argument('--use_gt_mask', action='store_true', default=False, help='use gt mask for pose optimization, for sintel/davis')
+
     parser.add_argument('--use_pred_mask', action='store_true', default=False, help='use nn predicted mask for pose optimization')
+    parser.add_argument('--evaluate_davis', action='store_true', default=False, help='evaluate davis on first 50 frames')
+    parser.add_argument('--not_batchify', action='store_true', default=False, help='Use non batchify mode for global optimization')
+    parser.add_argument('--dir_path', type=str, help='path to custom dataset for pose evaluation')
+
+    
     parser.add_argument('--motion_mask_thre', default=0.35, type=float, help='motion mask threshold for pose optimization')
     parser.add_argument('--sam2_mask_refine', action='store_true', default=False, help='use sam2 mask refine for the motion for pose optimization')
     parser.add_argument('--flow_loss_start_epoch', default=0.1, type=float, help='start epoch for flow loss')
@@ -122,6 +128,7 @@ def get_args_parser():
     parser.add_argument('--silent', action='store_true', default=False, help='silent mode for pose evaluation')
     parser.add_argument('--full_seq', action='store_true', default=False, help='use full sequence for pose evaluation')
     parser.add_argument('--seq_list', nargs='+', default=None, help='list of sequences for pose evaluation')
+
 
     parser.add_argument('--eval_dataset', type=str, default='sintel', 
                     choices=['davis', 'kitti', 'bonn', 'scannet', 'tum', 'nyu', 'sintel'], 

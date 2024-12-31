@@ -79,15 +79,22 @@ python dynamic_predictor/launch.py --mode=eval_pose \
         --pretrained=Kai422kx/das3r \
         --eval_dataset=davis \
         --output_dir=results/davis \
-        --use_pred_mask 
+        --use_pred_mask --evaluate_davis
 # For Sintel dataset:
 python dynamic_predictor/launch.py --mode=eval_pose \
         --pretrained=Kai422kx/das3r \
         --eval_dataset=sintel \
         --output_dir=results/sintel \
-        --use_pred_mask 
+        --use_pred_mask
 
-# Alternatively, download the files and place them in the `results` directory. Then, unzip `davis.zip` and `sintel.zip` in the same directory.
+# Alternatively, download the precomputed results and place them in the `results` directory. Then, unzip `davis.zip` and `sintel.zip` in the same directory.
+
+# For your own dataset:
+python dynamic_predictor/launch.py --mode=eval_pose_custom \
+        --pretrained=Kai422kx/das3r \
+        --dir_path=data/custom/images \
+        --output_dir=data/custom/output \
+        --use_pred_mask --not_batchify # use not_batchify to save memory
 ```
 - Rearrange results:
 

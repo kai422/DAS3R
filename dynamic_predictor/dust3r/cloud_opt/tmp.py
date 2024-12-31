@@ -11,9 +11,9 @@ from dust3r.utils.geometry import xy_grid, geotrf, depthmap_to_pts3d
 from dust3r.utils.device import to_cpu, to_numpy
 from dust3r.utils.goem_opt import DepthBasedWarping, OccMask, WarpImage, depth_regularization_si_weighted, tum_to_pose_matrix
 from third_party.raft import load_RAFT
-# from sam2.build_sam import build_sam2_video_predictor
-# sam2_checkpoint = "third_party/sam2/checkpoints/sam2.1_hiera_large.pt"
-# model_cfg = "configs/sam2.1/sam2.1_hiera_l.yaml"
+from sam2.build_sam import build_sam2_video_predictor
+sam2_checkpoint = "third_party/sam2/checkpoints/sam2.1_hiera_large.pt"
+model_cfg = "configs/sam2.1/sam2.1_hiera_l.yaml"
 
 def smooth_L1_loss_fn(estimate, gt, mask, beta=1.0, per_pixel_thre=50.):
     loss_raw_shape = F.smooth_l1_loss(estimate*mask, gt*mask, beta=beta, reduction='none')
@@ -85,6 +85,7 @@ class PointCloudOptimizer(BasePCOptimizer):
             # precompute aa
             self.register_buffer('_stacked_pred_i', ParameterStack(self.pred_i, self.str_edges, fill=self.max_area))
             self.register_buffer('_stacked_pred_j', ParameterStack(self.pred_j, self.str_edges, fill=self.max_area))
+            
         self.register_buffer('_ei', torch.tensor([i for i, j in self.edges]))
         self.register_buffer('_ej', torch.tensor([j for i, j in self.edges]))
         self.total_area_i = sum([im_areas[i] for i, j in self.edges])
@@ -147,7 +148,6 @@ class PointCloudOptimizer(BasePCOptimizer):
         print('flow precomputed')
         # delete the flow net
         if flow_net is not None: del flow_net
-        torch.cuda.empty_cache()
         return flow_ij, flow_ji, valid_mask_i, valid_mask_j
 
     def get_motion_mask_from_pairs(self, view1, view2, pred1, pred2):
