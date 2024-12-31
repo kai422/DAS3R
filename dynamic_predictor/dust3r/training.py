@@ -137,14 +137,25 @@ def get_args_parser():
 def load_model(args, device):
     # model
     print('Loading model: {:s}'.format(args.model))
+
     model = eval(args.model)
+
+    if args.pretrained and not args.resume:
+        if os.path.isfile(args.pretrained):
+            # load from pth file
+            print('Loading pretrained: ', args.pretrained)
+            ckpt = torch.load(args.pretrained, map_location=device, weights_only=False)
+            print(model.load_state_dict(ckpt['model'], strict=False))
+            del ckpt  # in case it occupies memory
+            
+        else:
+            # load from huggingface
+            print('Loading pretrained from huggingface: ', args.pretrained)
+            model = model.from_pretrained(args.pretrained)
+    
     model.to(device)
     model_without_ddp = model
-    if args.pretrained and not args.resume:
-        print('Loading pretrained: ', args.pretrained)
-        ckpt = torch.load(args.pretrained, map_location=device, weights_only=False)
-        print(model.load_state_dict(ckpt['model'], strict=False))
-        del ckpt  # in case it occupies memory
+
     if args.distributed:
         model = torch.nn.parallel.DistributedDataParallel(
             model, device_ids=[args.gpu], find_unused_parameters=True, static_graph=True)

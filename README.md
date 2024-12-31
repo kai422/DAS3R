@@ -19,7 +19,7 @@ arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[ArXiv]**]
 
 
 ### Installation
-1. Clone DAS3R and download pre-trained model from [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link) or [Hugging Face](https://huggingface.co/Kai422kx/das3r).
+1. Clone DAS3R.
 ```bash
 git clone --recursive git@github.com:kai422/das3r.git
 cd das3r
@@ -44,6 +44,7 @@ pip install submodules/diff-gaussian-rasterization
 # DUST3R relies on RoPE positional embeddings for which you can compile some cuda kernels for faster runtime.
 cd dynamic_predictor/croco/models/curope/
 python setup.py build_ext --inplace
+cd ../../../..
 ```
 
 
@@ -68,17 +69,17 @@ cd datasets_preprocess; python pointodyssey_rearrange.py; cd ..
 
 ## Training Dynamic-Aware Gaussian Splatting
 
-First compute dynamic masks and coarse geometric initialization or download it directly from  [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link).
+First compute dynamic masks and coarse geometric initialization or download them directly from  [Google Drive](https://drive.google.com/drive/folders/1uSI3raipU3aacSq5enAZd8EozSTn_kS9?usp=drive_link).
 ```bash
 # For DAVIS dataset:
 python dynamic_predictor/launch.py --mode=eval_pose \
-        --pretrained=das3r_checkpoint-last.pth \
+        --pretrained=Kai422kx/das3r \
         --eval_dataset=davis \
         --output_dir=results/davis \
         --use_pred_mask 
 # For Sintel dataset:
 python dynamic_predictor/launch.py --mode=eval_pose \
-        --pretrained=das3r_checkpoint-last.pth \
+        --pretrained=Kai422kx/das3r \
         --eval_dataset=sintel \
         --output_dir=results/sintel \
         --use_pred_mask 

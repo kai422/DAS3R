@@ -1,5 +1,5 @@
-mkdir -p ./checkpoints/
-gdown --fuzzy https://drive.google.com/file/d/1Z1jO_JmfZj0z3bgMvCwqfUhyZ1bIbc9E/view?usp=sharing -O ../checkpoints/
+# mkdir -p ./checkpoints/
+# gdown --fuzzy https://drive.google.com/file/d/1Z1jO_JmfZj0z3bgMvCwqfUhyZ1bIbc9E/view?usp=sharing -O ../checkpoints/
 # THE original dust3r ckpt
 # wget https://download.europe.naverlabs.com/ComputerVision/DUSt3R/DUSt3R_ViTLarge_BaseDecoder_512_dpt.pth -P ../checkpoints/
 

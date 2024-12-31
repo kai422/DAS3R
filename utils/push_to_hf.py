@@ -2,7 +2,7 @@
 from huggingface_hub import login
 from dust3r.model import AsymmetricCroCo3DStereo
 
-login(token="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")
+login(token="")
 
 
 model = AsymmetricCroCo3DStereo.from_pretrained("das3r_checkpoint-last.pth")
