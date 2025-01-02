@@ -26,9 +26,8 @@ This repository is the official implementation of the paper:
 ### Installation
 - Clone DAS3R.
 ```bash
-git clone --recursive git@github.com:kai422/das3r.git
-cd das3r
-git submodule update --init --recursive
+git clone --recursive https://github.com/kai422/DAS3R.git
+cd DAS3R
 ```
 
 - Create the environment (or use pre-built docker), here we show an example using conda.
