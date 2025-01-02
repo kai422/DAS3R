@@ -10,8 +10,13 @@ This repository is the official implementation of the paper:
 [*Tze Ho Elden Tse*](https://eldentse.github.io/),
 [*Jizong Peng*](),
 [*Angela Yao*](https://www.comp.nus.edu.sg/~ayao/)
+<h5 align="LEFT">
 
-arXiv, 2024. [**[Project Page]**](https://kai422.github.io/DAS3R/) [**[ArXiv]**](https://arxiv.org/abs/2412.19584) [**[Hugging Face]**](https://huggingface.co/Kai422kx/das3r)
+[![arXiv](https://img.shields.io/badge/ArXiv-2412.19584-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2412.19584) 
+[![Home Page](https://img.shields.io/badge/Project-Website-blue.svg)](https://kai422.github.io/DAS3R/) [![Gradio](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo-F59E0B)](https://huggingface.co/spaces/Kai422kx/DAS3R) 
+
+</h5>
+
 
 ![Demo](assets/davis.gif)
 ![Demo](assets/sintel.gif)
@@ -47,6 +52,13 @@ python setup.py build_ext --inplace
 cd ../../../..
 ```
 
+## Gradio Demo
+
+To start the Gradio server, simply execute the `app.py` script using Python. Once the server is running, you can access the demo at `http://0.0.0.0:7860`.
+```bash
+pip install --upgrade gradio
+python app.py
+```
 
 ## Data Preparation
 

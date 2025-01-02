@@ -1,4 +1,3 @@
-
 results
 data/davis
 data/davis_videos
@@ -6,6 +5,8 @@ data/point_odyssey
 data/sintel
 data/custom
 *.pth
+gradio_cache_folder
+.gradio
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

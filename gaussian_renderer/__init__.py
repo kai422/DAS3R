@@ -224,7 +224,6 @@ def render_test(
     opacity = pc.get_opacity[filtering]
 
     opacity = opacity * pc._conf_static
-
     # If precomputed 3d covariance is provided, use it. If not, then it will be computed from
     # scaling / rotation by the rasterizer.
     scales = None

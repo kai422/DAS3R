@@ -218,11 +218,11 @@ class GaussianModel:
         opacities = inverse_sigmoid(0.1 * torch.ones((fused_point_cloud.shape[0], 1), dtype=torch.float, device="cuda"))
 
         self._xyz = nn.Parameter(fused_point_cloud.requires_grad_(True))
-        self._features_dc = nn.Parameter(features[:,:,0:1].transpose(1, 2).contiguous().requires_grad_(False))
-        self._features_rest = nn.Parameter(features[:,:,1:].transpose(1, 2).contiguous().requires_grad_(False))
-        self._scaling = nn.Parameter(scales.requires_grad_(False))
-        self._rotation = nn.Parameter(rots.requires_grad_(False))
-        self._opacity = nn.Parameter(opacities.requires_grad_(False))
+        self._features_dc = nn.Parameter(features[:,:,0:1].transpose(1, 2).contiguous().requires_grad_(True))
+        self._features_rest = nn.Parameter(features[:,:,1:].transpose(1, 2).contiguous().requires_grad_(True))
+        self._scaling = nn.Parameter(scales.requires_grad_(True))
+        self._rotation = nn.Parameter(rots.requires_grad_(True))
+        self._opacity = nn.Parameter(opacities.requires_grad_(True))
         self.max_radii2D = torch.zeros((self.get_xyz.shape[0]), device="cuda")
 
     def training_setup(self, training_args):
@@ -330,6 +330,7 @@ class GaussianModel:
             l.append('f_dc_{}'.format(i))
         for i in range(self._features_rest.shape[1]*self._features_rest.shape[2]):
             l.append('f_rest_{}'.format(i))
+        l.append('opacity_ori')
         l.append('opacity')
         l.append('conf_static')
         for i in range(self._scaling.shape[1]):
@@ -345,14 +346,19 @@ class GaussianModel:
         normals = np.zeros_like(xyz)
         f_dc = self._features_dc.detach().transpose(1, 2).flatten(start_dim=1).contiguous().cpu().numpy()
         f_rest = self._features_rest.detach().transpose(1, 2).flatten(start_dim=1).contiguous().cpu().numpy()
-        opacities = self._opacity.detach().cpu().numpy()
+
+        opacities = self.opacity_activation(self._opacity) * self._conf_static.reshape(-1, 1)[self.aggregated_mask]
+        opacities = self.inverse_opacity_activation(opacities).detach().cpu().numpy()
+
+        opacities_ori = self._opacity.detach().cpu().numpy()
+
         scale = self._scaling.detach().cpu().numpy()
         rotation = self._rotation.detach().cpu().numpy()
         conf_static = self._conf_static.reshape(-1, 1)[self.aggregated_mask].detach().cpu().numpy()
 
         dtype_full = [(attribute, 'f4') for attribute in self.construct_list_of_attributes()]
         elements = np.empty(xyz.shape[0], dtype=dtype_full)
-        attributes = np.concatenate((xyz, normals, f_dc, f_rest, opacities, conf_static, scale, rotation), axis=1)
+        attributes = np.concatenate((xyz, normals, f_dc, f_rest, opacities_ori, opacities, conf_static, scale, rotation), axis=1)
         elements[:] = list(map(tuple, attributes))
         el = PlyElement.describe(elements, 'vertex')
         PlyData([el]).write(path)
@@ -368,7 +374,10 @@ class GaussianModel:
         xyz = np.stack((np.asarray(plydata.elements[0]["x"]),
                         np.asarray(plydata.elements[0]["y"]),
                         np.asarray(plydata.elements[0]["z"])),  axis=1)
+        opacities_ori = np.asarray(plydata.elements[0]["opacity_ori"])[..., np.newaxis]
         opacities = np.asarray(plydata.elements[0]["opacity"])[..., np.newaxis]
+
+        opacities = opacities_ori # for dynamic-aware rendering
         conf_static = np.asarray(plydata.elements[0]["conf_static"])[..., np.newaxis]
 
 
