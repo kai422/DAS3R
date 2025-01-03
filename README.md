@@ -13,13 +13,16 @@ This repository is the official implementation of the paper:
 <h5 align="LEFT">
 
 [![arXiv](https://img.shields.io/badge/ArXiv-2412.19584-b31b1b.svg?logo=arXiv)](https://arxiv.org/abs/2412.19584) 
-[![Home Page](https://img.shields.io/badge/Project-Website-blue.svg)](https://kai422.github.io/DAS3R/) [![Gradio](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Demo-F59E0B)](https://huggingface.co/spaces/Kai422kx/DAS3R) 
+[![Home Page](https://img.shields.io/badge/Project-Website-blue.svg)](https://kai422.github.io/DAS3R/) 
 
 </h5>
 
 
 ![Demo](assets/davis.gif)
 ![Demo](assets/sintel.gif)
+## TODO
+- [ ] HuggingFace Demo
+- [ ] Windows Support
 ## Getting Started
 
 
