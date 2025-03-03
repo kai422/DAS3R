@@ -20,9 +20,7 @@ This repository is the official implementation of the paper:
 
 ![Demo](assets/davis.gif)
 ![Demo](assets/sintel.gif)
-## TODO
-- [ ] HuggingFace Demo
-- [ ] Windows Support
+
 ## Getting Started
 
 
